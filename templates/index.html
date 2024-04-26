@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/tacit-css.min.css" />
+    <title>The Vulnerable Movie Center</title>
+    <style>
+      body {
+        padding-top: 0px;
+      }
+      .thin {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      #search-form {
+        text-align: right;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+      #search-result {
+        display: none;
+      }
+      #movie-data {
+        padding-bottom: 10px;
+      }
+      #playbill {
+        vertical-align: top;
+        margin: 10px;
+      }
+      #movie-details {
+        display: inline-block;
+        width: 40%;
+      }
+      #search-term {
+        font-style: italic;
+      }
+    </style>
+
+    <script>
+      function search() {
+        const searchResult = document.getElementById("search-result");
+        const searchTerm = document.getElementById("search-term");
+        const keyword = document.getElementById("keyword");
+
+        const movieData = document.getElementById("movie-data");
+        const comments = document.getElementById("comments");
+
+        movieData.style.visibility = "hidden";
+        comments.style.visibility = "hidden";
+
+        searchResult.style.display = "block";
+
+        searchTerm.innerHTML = keyword.value;
+
+        //fetching results related to the keyword value from the server
+
+        return false;
+      }
+    </script>
+  </head>
+  <body>
+    <section>
+      <h1 style="margin-top: 5px">Trung tâm phim dễ bị Tấn Công</h1>
+      <hr class="thin" />
+      <form id="search-form" onsubmit="return search()">
+        <input
+          id="keyword"
+          type="text"
+          class="thin"
+          placeholder="Tìm kiếm phim"
+        /><button type="submit" class="thin">Tìm kiếm</button>
+      </form>
+      <hr />
+    </section>
+
+    <section id="search-result">
+      You searched for <span id="search-term"></span>
+      <p>Waiting for server's response...</p>
+    </section>
+
+    <section id="movie-data">
+      <img id="playbill" src="images/matbiec.jpg" />
+      <div id="movie-details">
+        <b>Tiêu đề :</b>Mắt Biếc<br />
+        <b>Năm:</b> 2019<br />
+        <b>Đạo diễn :</b> Victor Vũ<br />
+        <b>Diễn viên chính:</b> Trần Bảo Sơn, Ngô Thanh Vân, Lê Viết Anh<br />
+        <b>Thời lượng:</b> 127 Phút.<br />
+        <br />
+        <b>Nội dung:</b>
+        <p>
+          Mắt Biếc kể về cuộc sống của Ngạn, một chàng trai mồ côi từ nhỏ, lớn
+          lên trong làng chài ven biển xinh đẹp. Cuộc sống của Ngạn bị xáo trộn
+          khi anh đắm chìm trong tình yêu với Hà Lan, một cô gái xinh đẹp và đầy
+          nghị lực. Tuy nhiên, hạnh phúc của họ bị thử thách bởi những rắc rối
+          và biến cố không ngờ khi họ phải đối mặt với sự phản đối của gia đình
+          và cuộc sống khó khăn ở làng quê.
+        </p>
+        <button type="submit">Xem ngay</button>
+      </div>
+    </section>
+
+    <section id="comments">
+      <form>
+        <fieldset>
+          <textarea
+            name="newReview"
+            cols="80"
+            rows="5"
+            placeholder="Thêm review về phim này"
+          ></textarea>
+        </fieldset>
+        <fieldset>
+          <button type="submit">Gửi</button>
+        </fieldset>
+      </form>
+      <hr />
+      <h2>Bình luận</h2>
+      <dl>$reviews$</dl>
+      <!--  Ở đây, lý do chính cho lỗ hổng XSS nằm ở việc thiếu vệ sinh
+      dữ liệu do người dùng gửi. Dữ liệu được chấp nhận khi nó được gửi, mà
+      không có bất kỳ sự kiểm soát nào đối với tính hợp lệ và bảo mật của nó.
+      Trong trường hợp này, trình giữ chỗ được tô sáng trong đoạn mã ở trên được
+      thay thế bằng các đánh giá do người dùng gửi mà không cần bất kỳ kiểm tra
+      tính hợp lệ nào. Vì đánh giá của kẻ tấn công là mã HTML hợp lệ và không có
+      vệ sinh, trình duyệt của người dùng diễn giải đánh giá của kẻ tấn công
+      dưới dạng mã, tiêm nó vào HTML.  -->
+    </section>
+  </body>
+</html>
+
+<!-- Sử dụng EJS -->
